@@ -47,7 +47,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
 
   // perlin / simplex
-  generateDungeonFlow(20 / RATIO, 10 / RATIO, grounds).forEach((row, y) =>
-    row.forEach((val, x) => drawTile(tiles.grounds[val], x, y)),
-  );
+  generateDungeonFlow(20 / RATIO, 10 / RATIO, grounds).forEach((row, y) => {
+    row.forEach((val, x) => {
+      drawTile(tiles.grounds[val], x, y);
+    });
+  });
 });

@@ -1,4 +1,5 @@
 import tiles from "./tiles.json";
+import { generateDungeonFlow } from "./ts/simplex";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -36,6 +37,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const grounds: string[] = [...Object.keys(tiles.grounds)];
 
+  // random
   for (let x = 0; x < 20 / RATIO; x++)
     for (let y = 0; y < 10 / RATIO; y++)
       drawTile(
@@ -43,4 +45,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         x,
         y,
       );
+
+  // perlin / simplex
+  generateDungeonFlow(20 / RATIO, 10 / RATIO, grounds).forEach((row, y) =>
+    row.forEach((val, x) => drawTile(tiles.grounds[val], x, y)),
+  );
 });

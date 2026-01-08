@@ -1,0 +1,15 @@
+{
+  "grounds": {
+    "blank": [0, 0],
+    "bridge": [7, 5],
+    "bridge_end": [7, 6],
+    "grass": [7, 0],
+    "tile": [0, 0],
+    "tiles": [0, 1],
+    "tiles_center": [0, 3],
+    "tiles_cracked": [0, 5],
+    "tiles_decorative": [0, 4],
+    "water": [0, 7],
+    "wood": [0, 8]
+  }
+}

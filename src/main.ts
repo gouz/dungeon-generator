@@ -1,5 +1,5 @@
 import tiles from "./tiles.json";
-import { generateDungeonFlow } from "./ts/simplex";
+import { generateDungeonFlow, type TileThreshold } from "./ts/simplex";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -47,9 +47,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       );
 
   // perlin / simplex
-  generateDungeonFlow(20 / RATIO, 10 / RATIO, grounds).forEach((row, y) => {
-    row.forEach((val, x) => {
-      drawTile(tiles.grounds[val], x, y);
-    });
-  });
+  const dungeonConfig: TileThreshold[] = [
+    { type: "water", maxThreshold: 0.15 }, // Très rare (bas)
+    { type: "tiles", maxThreshold: 0.7 }, // Très commun (le milieu)
+    { type: "grass", maxThreshold: 0.85 }, // Un peu de verdure
+    { type: "wood", maxThreshold: 1.0 }, // Rare (haut)
+  ];
+  generateDungeonFlow(20 / RATIO, 10 / RATIO, dungeonConfig).forEach(
+    (row, y) => {
+      row.forEach((val, x) => {
+        drawTile(tiles.grounds[val], x, y);
+      });
+    },
+  );
 });

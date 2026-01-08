@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const [sourceX, sourceY] = source;
     ctx.drawImage(
       tilesheet,
-      sourceX!,
-      sourceY!,
+      sourceX! * TILE_SIZE,
+      sourceY! * TILE_SIZE,
       TILE_SIZE,
       TILE_SIZE,
       destGridX * TILE_SIZE * RATIO - (destGridX !== 0 ? destGridX * 4 : 0),
@@ -28,6 +28,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     tilesheet.onload = resolve;
   });
 
+  const grounds: string[] = [...Object.keys(tiles.grounds)];
+
   for (let x = 0; x < 20; x++)
-    for (let y = 0; y < 10; y++) drawTile(tiles.grounds.blank, x, y);
+    for (let y = 0; y < 10; y++)
+      drawTile(
+        tiles.grounds[grounds[Math.floor(Math.random() * grounds.length)]],
+        x,
+        y,
+      );
 });

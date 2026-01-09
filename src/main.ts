@@ -1,5 +1,8 @@
 import tiles from "./tiles.json";
-import { generateDungeonFlow, type TileThreshold } from "./ts/simplex";
+import { generateAdvancedDungeon } from "./ts/advanced";
+
+//import { random } from "./ts/random";
+//import { generateDungeonFlow } from "./ts/simplex";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement;
@@ -35,29 +38,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     tilesheet.onload = resolve;
   });
 
-  const grounds: string[] = [...Object.keys(tiles.grounds)];
-
-  // random
-  for (let x = 0; x < 20 / RATIO; x++)
-    for (let y = 0; y < 10 / RATIO; y++)
-      drawTile(
-        tiles.grounds[grounds[Math.floor(Math.random() * grounds.length)]],
-        x,
-        y,
-      );
-
-  // perlin / simplex
-  const dungeonConfig: TileThreshold[] = [
-    { type: "water", maxThreshold: 0.15 }, // Très rare (bas)
-    { type: "tiles", maxThreshold: 0.7 }, // Très commun (le milieu)
-    { type: "grass", maxThreshold: 0.85 }, // Un peu de verdure
-    { type: "wood", maxThreshold: 1.0 }, // Rare (haut)
-  ];
-  generateDungeonFlow(20 / RATIO, 10 / RATIO, dungeonConfig).forEach(
-    (row, y) => {
+  const drawDungeon = (grid: string[][]) =>
+    grid.forEach((row, y) => {
       row.forEach((val, x) => {
         drawTile(tiles.grounds[val], x, y);
       });
-    },
-  );
+    });
+
+  const width = 20 / RATIO;
+  const height = 10 / RATIO;
+
+  // random
+  // drawDungeon(random(width, height));
+
+  // perlin / simplex
+  // drawDungeon(generateDungeonFlow(width, height));
+
+  // advanced
+  drawDungeon(generateAdvancedDungeon(width, height));
 });

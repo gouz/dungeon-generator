@@ -1,24 +1,33 @@
 import { createNoise2D } from "simplex-noise";
 
-export interface TileThreshold {
+interface TileThreshold {
   type: string;
   maxThreshold: number; // La valeur (0 à 1) jusqu'à laquelle ce type s'applique
 }
+
+const dungeonConfig: TileThreshold[] = [
+  { type: "water", maxThreshold: 0.15 }, // Très rare (bas)
+  { type: "tiles_center", maxThreshold: 0.3 }, // Rare
+  { type: "tiles_decorative", maxThreshold: 0.4 },
+  { type: "tiles_cracked", maxThreshold: 0.5 },
+  { type: "tiles", maxThreshold: 0.6 },
+  { type: "tile", maxThreshold: 0.7 }, // Le plus commun
+  { type: "grass", maxThreshold: 0.85 }, // Un peu de verdure
+  { type: "wood", maxThreshold: 1.0 }, // Rare (haut)
+];
 
 /**
  * Génère une grille de fonds cohérente via Perlin/Simplex
  * @param width Largeur de la grille
  * @param height Hauteur de la grille
- * @param thresholds Tableau des types de sols (ex: ['eau', 'terre', 'pierre'])
  * @param scale Échelle du bruit (plus petit = zones plus larges et lisses)
  */
 export const generateDungeonFlow = (
   width: number,
   height: number,
-  thresholds: TileThreshold[],
   scale: number = 0.1,
 ): string[][] => {
-  const sortedThresholds = [...thresholds].sort(
+  const sortedThresholds = [...dungeonConfig].sort(
     (a, b) => a.maxThreshold - b.maxThreshold,
   );
   const noise2D = createNoise2D(); // Initialise le générateur
